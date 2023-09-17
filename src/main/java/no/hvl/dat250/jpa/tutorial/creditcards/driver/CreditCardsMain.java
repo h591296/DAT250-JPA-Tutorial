@@ -24,9 +24,9 @@ public class CreditCardsMain {
 
     private static void createObjects(EntityManager em) {
     
-        Customer owner = new Customer();
-        owner.setName("Max Mustermann");
-        em.persist(owner);
+        Customer customer = new Customer();
+        customer.setName("Max Mustermann");
+        em.persist(customer);
 
         Address address = new Address();
         address.setStreet("Inndalsveien");
@@ -46,7 +46,7 @@ public class CreditCardsMain {
         em.persist(card2);
 
         Pincode pin = new Pincode();
-        pin.setCode("123");
+        pin.setPincode("123");
         pin.setCount(1);
         em.persist(pin);
 
@@ -55,19 +55,19 @@ public class CreditCardsMain {
         em.persist(bank);
 
         // Establish relationships
+        customer.getAddresses().add(address);
+        customer.getCreditCards().add(card1);
+        customer.getCreditCards().add(card2);
+
+        address.getOwners().add(customer);
+
         card1.setPincode(pin);
-        card1.setOwningBank(bank);
+        card1.setBank(bank);
 
         card2.setPincode(pin);
-        card2.setOwningBank(bank);
+        card2.setBank(bank);
 
         bank.getOwnedCards().add(card1);
         bank.getOwnedCards().add(card2);
-
-        owner.getAddresses().add(address);
-        owner.getCreditCards().add(card1);
-        owner.getCreditCards().add(card2);
-
-        address.getOwners().add(owner);
     }
   }

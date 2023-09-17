@@ -3,7 +3,11 @@ package no.hvl.dat250.jpa.tutorial.creditcards;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Bank {
@@ -11,28 +15,29 @@ public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String bankName;
+    private String name;
 
-    // Bidirectional one-to-many relation
-    @OneToMany(mappedBy = "owningBank")
-    private Set<CreditCard> ownedCards = new HashSet<>();
+    @OneToMany(mappedBy = "bank")
+    private Set<CreditCard> creditCards = new HashSet<>();
 
-    // Get- and set-methods
+    public Bank() {}
+
+    public Long id() {
+        return id;
+    }
     public Long getId() {
         return id;
     }
     public String getName() {
-        return bankName;
+        return name;
     }
-    public void setName(String bankNavn) {
-        this.bankName = bankNavn;
+    public void setName(String name) {
+        this.name = name;
     }
     public Set<CreditCard> getOwnedCards() {
-        return ownedCards;
+        return creditCards;
     }
-
-    @Override
-    public String toString() {
-        return "CreditCard [Bank = " + bankName + "]";
+    public void setOwnedCards(Set<CreditCard> creditCards) {
+        this.creditCards = creditCards;
     }
 }

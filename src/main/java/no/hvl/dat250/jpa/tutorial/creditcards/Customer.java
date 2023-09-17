@@ -3,7 +3,15 @@ package no.hvl.dat250.jpa.tutorial.creditcards;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Customer {
@@ -13,14 +21,17 @@ public class Customer {
     private Long id;
     private String name;
 
-    // Bidirectional many-to-many relation
     @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "customer_address",
+        joinColumns = @JoinColumn(name = "customer_id"),
+        inverseJoinColumns = @JoinColumn(name = "address_id"))
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private Set<CreditCard> creditCards = new HashSet<>();
 
-    // Get- and set-methods
+    public Customer() {}
+
     public Long getId() {
         return id;
     }
@@ -41,12 +52,5 @@ public class Customer {
     }
     public void setCreditCards(Set<CreditCard> creditCards) {
         this.creditCards = creditCards;
-    }
-    
-    @Override
-    public String toString() {
-        return "Person [Name = " + name 
-               +  ", address = " + addresses 
-            + ", credit card = " + creditCards + "]";
     }
 }

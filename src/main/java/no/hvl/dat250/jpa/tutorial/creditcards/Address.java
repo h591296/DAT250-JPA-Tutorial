@@ -3,32 +3,33 @@ package no.hvl.dat250.jpa.tutorial.creditcards;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Address {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String street;
     private Integer number;
 
-    // Oppdatert etter slide: Bidirectional many-to-many
     @ManyToMany(mappedBy = "addresses")
     private Set<Customer> owners = new HashSet<>();
 
-    // Empty constructor
     public Address() {}
 
-    // Get- and set-methods
     public Long getId() {
         return id;
     }
     public String getStreet() {
         return street;
     }
-    public void setStreet(String street){
+    public void setStreet(String street) {
         this.street = street;
     }
     public Integer getNumber() {
@@ -40,13 +41,7 @@ public class Address {
     public Set<Customer> getOwners() {
         return owners;
     }
-    public void setOwners(Set<Customer> customers) {
+    public void setOwners(Set<Customer> owners) {
         this.owners = owners;
-    }
-
-    @Override
-    public String toString() {
-        return "Address [Street = " + street 
-                   +  ", number = " + number + "]";
     }
 }
