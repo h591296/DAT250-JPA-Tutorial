@@ -46,7 +46,7 @@ public class CreditCardsMain {
         em.persist(card2);
 
         Pincode pin = new Pincode();
-        pin.setPincode("123");
+        pin.setCode("123");
         pin.setCount(1);
         em.persist(pin);
 
@@ -62,10 +62,10 @@ public class CreditCardsMain {
         address.getOwners().add(customer);
 
         card1.setPincode(pin);
-        card1.setBank(bank);
+        card1.setOwningBank(bank);
 
         card2.setPincode(pin);
-        card2.setBank(bank);
+        card2.setOwningBank(bank);
 
         bank.getOwnedCards().add(card1);
         bank.getOwnedCards().add(card2);

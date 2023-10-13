@@ -8,8 +8,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Bank {
 
     @Id
@@ -17,27 +21,8 @@ public class Bank {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "bank")
-    private Set<CreditCard> creditCards = new HashSet<>();
+    @OneToMany(mappedBy = "owningBank")
+    private Set<CreditCard> ownedCards = new HashSet<>();
 
     public Bank() {}
-
-    public Long id() {
-        return id;
-    }
-    public Long getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Set<CreditCard> getOwnedCards() {
-        return creditCards;
-    }
-    public void setOwnedCards(Set<CreditCard> creditCards) {
-        this.creditCards = creditCards;
-    }
 }

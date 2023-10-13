@@ -12,7 +12,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Customer {
 
@@ -22,35 +26,13 @@ public class Customer {
     private String name;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "customer_address",
-        joinColumns = @JoinColumn(name = "customer_id"),
-        inverseJoinColumns = @JoinColumn(name = "address_id"))
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany
+    @JoinTable(name = "customer_creditcard",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "creditcard_id"))
     private Set<CreditCard> creditCards = new HashSet<>();
 
     public Customer() {}
-
-    public Long getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
-    public Set<CreditCard> getCreditCards() {
-        return creditCards;
-    }
-    public void setCreditCards(Set<CreditCard> creditCards) {
-        this.creditCards = creditCards;
-    }
 }

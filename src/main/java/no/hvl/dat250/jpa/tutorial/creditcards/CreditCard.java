@@ -1,13 +1,19 @@
 package no.hvl.dat250.jpa.tutorial.creditcards;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class CreditCard {
 
@@ -19,56 +25,13 @@ public class CreditCard {
     private Integer creditLimit;
 
     @ManyToOne
-    @JoinColumn(name = "bank_id")
-    private Bank bank;
-
-    @OneToOne
-    @JoinColumn(name = "pincode_id")
-    private Pincode pincode;
+    private Bank owningBank;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private Pincode pincode;
+
+    @ManyToMany(mappedBy = "creditCards")
+    private Set<Customer> cardOwners = new HashSet<>();
 
     public CreditCard() {}
-
-    public Long getId() {
-        return id;
-    }
-    public Integer getNumber() {
-        return balance;
-    }
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-    public Integer getBalance() {
-        return number;
-    }
-    public void setBalance(Integer balance) {
-        this.balance = balance;
-    }
-    public Integer getCreditLimit() {
-        return creditLimit;
-    }
-    public void setCreditLimit(Integer creditLimit) {
-        this.creditLimit = creditLimit;
-    }
-    public Bank getOwningBank() {
-        return bank;
-    }
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-    public Pincode getPincode() {
-        return pincode;
-    }
-    public void setPincode(Pincode pincode) {
-        this.pincode = pincode;
-    }
-    public Customer getCustomer() {
-        return customer;
-    }
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 }
